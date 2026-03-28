@@ -27,11 +27,7 @@ const defaultItems = {
     { name: 'Pancake', highProtein: false },
     { name: 'Uttapam', highProtein: false },
     { name: 'Overnight oats', highProtein: true },
-    { name: 'Sour dought toast', highProtein: false },
-    { name: 'handva', highProtein: false },
-    { name: 'wagharela bhat', highProtein: false },
-    { name: 'Mag khakhra', highProtein: true },
-    { name: 'Khichu', highProtein: false },
+    { name: 'Sour dought toast', highProtein: false }
   ],
   lunch: [
     { name: 'Pav Bhaji (jain style)', highProtein: false },
@@ -104,39 +100,30 @@ function saveItems() {
   localStorage.setItem('foodItems', JSON.stringify(items));
 }
 
-let currentMenu = null;
-let currentDays = [];
+// Edit item
+function editItem(category, index) {
+  const item = items[category][index];
+  const itemDiv = document.querySelector(`.edit-btn[data-category="${category}"][data-index="${index}"]`).parentElement;
+  itemDiv.innerHTML = `
+    <input type="text" value="${item.name}" id="edit-name-${category}-${index}" required>
+    <label><input type="checkbox" id="edit-high-${category}-${index}" ${item.highProtein ? 'checked' : ''}> High Protein</label>
+    <button class="save-btn">Save</button>
+    <button class="cancel-btn">Cancel</button>
+  `;
 
-function menuContains(itemName, menu) {
-  return menu.some(day => Object.values(day).some(meal => meal.name === itemName));
-}
+  itemDiv.querySelector('.save-btn').addEventListener('click', () => {
+    const newName = document.getElementById(`edit-name-${category}-${index}`).value.trim();
+    const newHigh = document.getElementById(`edit-high-${category}-${index}`).checked;
+    if (newName) {
+      items[category][index] = { name: newName, highProtein: newHigh };
+      saveItems();
+      displayItems();
+    }
+  });
 
-function replaceMenuItem(dayIndex, meal) {
-  if (!currentMenu || !currentMenu[dayIndex]) return;
-
-  const currentItem = currentMenu[dayIndex][meal];
-  const categoryItems = items[meal] || [];
-  const replacements = categoryItems.filter(item =>
-    item.highProtein === currentItem.highProtein &&
-    item.name !== currentItem.name &&
-    !menuContains(item.name, currentMenu)
-  );
-
-  const fallback = categoryItems.filter(item =>
-    item.highProtein === currentItem.highProtein &&
-    item.name !== currentItem.name
-  );
-
-  const candidateItems = replacements.length > 0 ? replacements : fallback;
-
-  if (candidateItems.length === 0) {
-    alert('No available replacement found for this item in the same category and protein tier.');
-    return;
-  }
-
-  const selected = candidateItems[Math.floor(Math.random() * candidateItems.length)];
-  currentMenu[dayIndex][meal] = { name: selected.name, highProtein: selected.highProtein };
-  displayMenu(currentMenu, currentDays);
+  itemDiv.querySelector('.cancel-btn').addEventListener('click', () => {
+    displayItems();
+  });
 }
 
 // Display items
@@ -208,64 +195,16 @@ function editItem(category, index) {
 
 // Display menu
 function displayMenu(menu, days) {
-  currentMenu = menu;
-  currentDays = days;
-
   const container = document.getElementById('menu-display');
   let html = '<div class="table-wrapper"><table><tr><th>Day</th><th>Breakfast</th><th>Lunch</th><th>Dinner</th></tr>';
   menu.forEach((dayMenu, index) => {
-    const breakfastLabel = dayMenu.breakfast.highProtein ? `${dayMenu.breakfast.name} ⭐` : dayMenu.breakfast.name;
-    const lunchLabel = dayMenu.lunch.highProtein ? `${dayMenu.lunch.name} ⭐` : dayMenu.lunch.name;
-    const dinnerLabel = dayMenu.dinner.highProtein ? `${dayMenu.dinner.name} ⭐` : dayMenu.dinner.name;
-
-    html += `
-      <tr>
-        <td>${days[index]}</td>
-        <td>
-          <div class="menu-cell">
-            <span class="menu-item-label">${breakfastLabel}</span>
-            <button class="btn btn-secondary replace-btn" data-day="${index}" data-meal="breakfast" aria-label="Replace breakfast item for ${days[index]}">
-              <svg class="replace-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17.65 6.35A7.95 7.95 0 0012 4V1l-4 4 4 4V5c3.31 0 6 2.69 6 6a6 6 0 11-6-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <span class="sr-only">Replace breakfast</span>
-            </button>
-          </div>
-        </td>
-        <td>
-          <div class="menu-cell">
-            <span class="menu-item-label">${lunchLabel}</span>
-            <button class="btn btn-secondary replace-btn" data-day="${index}" data-meal="lunch" aria-label="Replace lunch item for ${days[index]}">
-              <svg class="replace-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17.65 6.35A7.95 7.95 0 0012 4V1l-4 4 4 4V5c3.31 0 6 2.69 6 6a6 6 0 11-6-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <span class="sr-only">Replace lunch</span>
-            </button>
-          </div>
-        </td>
-        <td>
-          <div class="menu-cell">
-            <span class="menu-item-label">${dinnerLabel}</span>
-            <button class="btn btn-secondary replace-btn" data-day="${index}" data-meal="dinner" aria-label="Replace dinner item for ${days[index]}">
-              <svg class="replace-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17.65 6.35A7.95 7.95 0 0012 4V1l-4 4 4 4V5c3.31 0 6 2.69 6 6a6 6 0 11-6-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <span class="sr-only">Replace dinner</span>
-            </button>
-          </div>
-        </td>
-      </tr>`;
+    const breakfast = dayMenu.breakfast.highProtein ? dayMenu.breakfast.name + ' ⭐' : dayMenu.breakfast.name;
+    const lunch = dayMenu.lunch.highProtein ? dayMenu.lunch.name + ' ⭐' : dayMenu.lunch.name;
+    const dinner = dayMenu.dinner.highProtein ? dayMenu.dinner.name + ' ⭐' : dayMenu.dinner.name;
+    html += `<tr><td>${days[index]}</td><td>${breakfast}</td><td>${lunch}</td><td>${dinner}</td></tr>`;
   });
   html += '</table></div><div class="menu-legend"><strong>⭐</strong> = High Protein item</div>';
   container.innerHTML = html;
-
-  document.querySelectorAll('.replace-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const dayIndex = parseInt(this.getAttribute('data-day'));
-      const meal = this.getAttribute('data-meal');
-      replaceMenuItem(dayIndex, meal);
-    });
-  });
 }
 
 // Wait for DOM to be ready
