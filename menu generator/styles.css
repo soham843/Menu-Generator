@@ -623,9 +623,105 @@ th, td {
   font-size: var(--font-size-sm);
 }
 
-.item-actions {
+..item-actions {
   display: flex;
   gap: var(--spacing-sm);
+}
+
+.menu-cell {
+  display: inline-flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.menu-item-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Small icon-style replace button */
+.replace-btn {
+  padding: 4px;
+  width: 28px;
+  height: 28px;
+  min-width: 0;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+}
+
+.replace-icon {
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  width: 21px;
+  height: 21px;
+}
+
+.replace-btn:hover {
+  background-color: var(--color-bg-tertiary);
+}
+
+.replace-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Compact table layout to fit the viewport easily */
+.table-wrapper {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.table-wrapper table {
+  width: 100%;
+  table-layout: fixed;
+  font-size: 0.88rem;
+}
+
+.table-wrapper table th,
+.table-wrapper table td {
+  padding: 6px 8px;
+}
+
+.table-wrapper table th {
+  font-size: 0.92rem;
+}
+
+.menu-item-label {
+  font-size: 0.88rem;
+}
+
+@media (max-width: 900px) {
+  .table-wrapper table { font-size: 0.82rem; }
+  .table-wrapper table th, .table-wrapper table td { padding: 6px 6px; }
+  .replace-icon { width: 18px; height: 18px; }
+}
+
+@media (min-width: 1200px) {
+  .table-wrapper table { font-size: 0.95rem; }
+}
+
+/* Visually hidden text for screen readers */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 .edit-btn,
