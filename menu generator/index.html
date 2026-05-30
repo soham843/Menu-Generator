@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Weekly Food Menu Generator - Plan your weekly meals with ease">
+  <title>Weekly Food Menu Generator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <h1>Weekly Food Menu Generator</h1>
+      <p class="subtitle">Plan your meals intelligently with smart nutrition tracking</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Menu Generation Section -->
+    <section class="card" id="menu-section">
+      <div class="card-header">
+        <h2>Weekly Menu</h2>
+        <p class="section-description">Generate an intelligent meal plan</p>
+      </div>
+      <div class="button-group">
+        <button id="generate-menu" class="btn btn-primary btn-large">Generate Weekly Menu</button>
+        <button id="shuffle-menu" class="btn btn-secondary btn-large">Shuffle Menu</button>
+      </div>
+      <div id="menu-display" role="region" aria-live="polite">
+        <!-- Menu will be displayed here -->
+      </div>
+    </section>
+
+    <!-- Add Item Section -->
+    <section class="card">
+      <div class="card-header">
+        <h2>Add Food Item</h2>
+        <p class="section-description">Add individual food items to your repository</p>
+      </div>
+      <form id="add-item-form" class="form">
+        <div class="form-group">
+          <input 
+            type="text" 
+            id="item-name" 
+            placeholder="Item name (e.g., Grilled Chicken)" 
+            required
+            aria-label="Food item name"
+          >
+          <span class="form-hint">Enter the name of the food item</span>
+        </div>
+        <div class="form-group">
+          <select id="item-category" required aria-label="Food category">
+            <option value="">Select category</option>
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="dinner">Dinner</option>
+          </select>
+          <span class="form-hint">Choose a meal category</span>
+        </div>
+        <label class="checkbox-label">
+          <input type="checkbox" id="high-protein">
+          <span>High Protein (mark items with 15g+ protein)</span>
+        </label>
+        <button type="submit" class="btn btn-primary">Add Item</button>
+      </form>
+    </section>
+
+    <!-- Import Section -->
+    <section class="card">
+      <div class="card-header">
+        <h2>Import from File</h2>
+        <p class="section-description">Bulk import items from Excel or CSV</p>
+      </div>
+      <div class="form">
+        <p class="info-box">
+          📋 Upload an Excel (.xlsx, .xls) or CSV file with columns: <strong>Category</strong>, <strong>Name</strong>, <strong>HighProtein</strong> (optional)
+        </p>
+        <div class="form-group">
+          <input 
+            type="file" 
+            id="excel-file" 
+            accept=".xlsx,.xls,.csv"
+            aria-label="Upload file"
+          >
+          <span class="form-hint">CSV loads instantly; Excel requires library load</span>
+        </div>
+        <button id="import-excel-btn" class="btn btn-secondary">Import Items</button>
+      </div>
+    </section>
+
+    <!-- Items Repository Section -->
+    <section class="card">
+      <div class="card-header">
+        <h2>Food Items Repository</h2>
+        <button class="btn btn-tertiary toggle-btn" id="toggle-items-btn" aria-expanded="false">Show Items</button>
+      </div>
+      <div id="items-display" class="items-grid hidden" role="region" aria-live="polite">
+        <!-- Items will be displayed here -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2024 Food Menu Generator. All rights reserved.</p>
+  </footer>
+
+  <script src="https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
