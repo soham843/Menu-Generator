@@ -223,20 +223,35 @@ function displayMenu(menu, days) {
         <td>${days[index]}</td>
         <td>
           <div class="menu-cell">
-            <span>${breakfastLabel}</span>
-            <button class="btn btn-secondary btn-small replace-btn" data-day="${index}" data-meal="breakfast" aria-label="Replace breakfast item for ${days[index]}">Replace</button>
+            <span class="menu-item-label">${breakfastLabel}</span>
+            <button class="btn btn-secondary replace-btn" data-day="${index}" data-meal="breakfast" aria-label="Replace breakfast item for ${days[index]}">
+              <svg class="replace-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.65 6.35A7.95 7.95 0 0012 4V1l-4 4 4 4V5c3.31 0 6 2.69 6 6a6 6 0 11-6-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="sr-only">Replace breakfast</span>
+            </button>
           </div>
         </td>
         <td>
           <div class="menu-cell">
-            <span>${lunchLabel}</span>
-            <button class="btn btn-secondary btn-small replace-btn" data-day="${index}" data-meal="lunch" aria-label="Replace lunch item for ${days[index]}">Replace</button>
+            <span class="menu-item-label">${lunchLabel}</span>
+            <button class="btn btn-secondary replace-btn" data-day="${index}" data-meal="lunch" aria-label="Replace lunch item for ${days[index]}">
+              <svg class="replace-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.65 6.35A7.95 7.95 0 0012 4V1l-4 4 4 4V5c3.31 0 6 2.69 6 6a6 6 0 11-6-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="sr-only">Replace lunch</span>
+            </button>
           </div>
         </td>
         <td>
           <div class="menu-cell">
-            <span>${dinnerLabel}</span>
-            <button class="btn btn-secondary btn-small replace-btn" data-day="${index}" data-meal="dinner" aria-label="Replace dinner item for ${days[index]}">Replace</button>
+            <span class="menu-item-label">${dinnerLabel}</span>
+            <button class="btn btn-secondary replace-btn" data-day="${index}" data-meal="dinner" aria-label="Replace dinner item for ${days[index]}">
+              <svg class="replace-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.65 6.35A7.95 7.95 0 0012 4V1l-4 4 4 4V5c3.31 0 6 2.69 6 6a6 6 0 11-6-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="sr-only">Replace dinner</span>
+            </button>
           </div>
         </td>
       </tr>`;
